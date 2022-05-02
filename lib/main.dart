@@ -4,14 +4,26 @@ void main (){
   runApp(MyApp());
 }
 
+// changed staeless widget to a statefil widget 
+// when _ is used before a property it locks it to that specific dart file or class 
+class MyApp extends StatefulWidget {
 
-class MyApp extends StatelessWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _MyAppState();
+  }
+}
 
-  var questionIndex = 0;
+class _MyAppState extends State<MyApp> {
 
-  void answerQuestion () {
-    questionIndex = questionIndex + 1;
-    print(questionIndex);
+  var _questionIndex = 0;
+
+  void _answerQuestion () {
+    // for the state to change you use set state 
+    setState(() {
+      _questionIndex = _questionIndex + 1;
+    });
+    print(_questionIndex);
   }
 
   @override
@@ -26,10 +38,10 @@ class MyApp extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Text(questions[questionIndex]),
-          ElevatedButton(onPressed: answerQuestion, child: Text('Answer 1')),
-          ElevatedButton(onPressed: answerQuestion, child: Text('Answer 2')),
-          ElevatedButton(onPressed: answerQuestion, child: Text('Answer 3'))
+          Text(questions[_questionIndex]),
+          ElevatedButton(onPressed: _answerQuestion, child: Text('Answer 1')),
+          ElevatedButton(onPressed: _answerQuestion, child: Text('Answer 2')),
+          ElevatedButton(onPressed: _answerQuestion, child: Text('Answer 3'))
         ],
       )
       )
