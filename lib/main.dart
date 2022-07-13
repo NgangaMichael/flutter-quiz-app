@@ -17,20 +17,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
-  var _questionIndex = 0;
-
-  void _answerQuestion () {
-    // for the state to change you use set state 
-    setState(() {
-      _questionIndex = _questionIndex + 1;
-    });
-    print(_questionIndex);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // we can use map or {} to indicate a map 
-    var questions = [
+  // we can use map or {} to indicate a map 
+    final questions = const [
       {'questionText': 'what is your favorite color?',
         'answers': [
           'black',
@@ -56,11 +44,32 @@ class _MyAppState extends State<MyApp> {
         ]
       },
     ];
+
+  var _questionIndex = 0;
+
+  void _answerQuestion () {
+    
+    // for the state to change you use set state 
+    setState(() {
+      _questionIndex = _questionIndex + 1;
+    });
+    print(_questionIndex);
+
+    if(_questionIndex < questions.length) {
+      print('we have more questions');
+    } else {
+      print('No more questions');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    
     return MaterialApp(home: Scaffold(
       appBar: AppBar(
         title: Text('Flutter quiz app'),
       ),
-      body: Column(
+      body: _questionIndex < questions.length ? Column(
         children: [
           Questions(questions[_questionIndex]['questionText'] as String),
 
@@ -72,8 +81,8 @@ class _MyAppState extends State<MyApp> {
           // ElevatedButton(onPressed: _answerQuestion, child: Text('Answer 2')),
           // ElevatedButton(onPressed: _answerQuestion, child: Text('Answer 3'))
         ],
-      )
-      )
+      ) : Center(child: Text('You did it'),)
+      ),
     );
   }
 }
