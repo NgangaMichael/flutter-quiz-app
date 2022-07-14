@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/answer.dart';
+import 'package:flutter_complete_guide/quiz.dart';
+import 'package:flutter_complete_guide/result.dart';
 import './question.dart';
 void main (){
   runApp(MyApp());
@@ -18,7 +20,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
 
   // we can use map or {} to indicate a map 
-    final questions = const [
+    final _questions = const [
       {'questionText': 'what is your favorite color?',
         'answers': [
           'black',
@@ -55,7 +57,7 @@ class _MyAppState extends State<MyApp> {
     });
     print(_questionIndex);
 
-    if(_questionIndex < questions.length) {
+    if(_questionIndex < _questions.length) {
       print('we have more questions');
     } else {
       print('No more questions');
@@ -69,19 +71,9 @@ class _MyAppState extends State<MyApp> {
       appBar: AppBar(
         title: Text('Flutter quiz app'),
       ),
-      body: _questionIndex < questions.length ? Column(
-        children: [
-          Questions(questions[_questionIndex]['questionText'] as String),
-
-          ...(questions[_questionIndex]['answers'] as List<String>).map((answer) {
-            return Answer(_answerQuestion, answer);
-          }).toList(),
-          
-          // ElevatedButton(onPressed: _answerQuestion, child: Text('Answer 1')),
-          // ElevatedButton(onPressed: _answerQuestion, child: Text('Answer 2')),
-          // ElevatedButton(onPressed: _answerQuestion, child: Text('Answer 3'))
-        ],
-      ) : Center(child: Text('You did it'),)
+      body: _questionIndex < _questions.length ? 
+      Quiz(answerQuestion: _answerQuestion, questionIndex: _questionIndex, questions: _questions,) 
+      : Result(),
       ),
     );
   }
