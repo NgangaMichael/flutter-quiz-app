@@ -21,35 +21,53 @@ class _MyAppState extends State<MyApp> {
 
   // we can use map or {} to indicate a map 
     final _questions = const [
-      {'questionText': 'what is your favorite color?',
-        'answers': [
-          'black',
-          'red',
-          'green',
-          'white'
-        ]
-      },
-      {'questionText': 'what is your favorite animal',
-        'answers': [
-          'rabbit',
-          'goat',
-          'lion',
-          'dog'
-        ]
-      },
-      {'questionText': 'what is your favorite car',
-        'answers': [
-          'tesla',
-          'toyota',
-          'hyundai',
-          'mercides'
-        ]
-      },
-    ];
+    {
+      'questionText': 'What\'s your favorite color?',
+      'answers': [
+        {'text': 'Black', 'score': 10},
+        {'text': 'Red', 'score': 5},
+        {'text': 'Green', 'score': 3},
+        {'text': 'White', 'score': 1},
+      ],
+    },
+    {
+      'questionText': 'What\'s your favorite animal?',
+      'answers': [
+        {'text': 'Rabbit', 'score': 3},
+        {'text': 'Snake', 'score': 11},
+        {'text': 'Elephant', 'score': 5},
+        {'text': 'Lion', 'score': 9},
+      ],
+    },
+    {
+      'questionText': 'Who\'s your favorite instructor?',
+      'answers': [
+        {'text': 'Max', 'score': 1},
+        {'text': 'Max', 'score': 1},
+        {'text': 'Max', 'score': 1},
+        {'text': 'Max', 'score': 1},
+      ],
+    },
+  ];
 
   var _questionIndex = 0;
+  var _totalScore = 0;
 
-  void _answerQuestion () {
+  void _resetQuiz() {
+
+    setState(() {
+      _questionIndex = 0;
+      _totalScore = 0;
+    });
+  }
+
+  void _answerQuestion (int score) {
+
+    // old style 
+    // _totalScore = _totalScore + score;
+
+    // new style 
+    _totalScore += score;
     
     // for the state to change you use set state 
     setState(() {
@@ -69,11 +87,15 @@ class _MyAppState extends State<MyApp> {
     
     return MaterialApp(home: Scaffold(
       appBar: AppBar(
-        title: Text('Flutter quiz app'),
+        title: const Text('Flutter quiz app'),
       ),
       body: _questionIndex < _questions.length ? 
-      Quiz(answerQuestion: _answerQuestion, questionIndex: _questionIndex, questions: _questions,) 
-      : Result(),
+      Quiz(
+      answerQuestion: _answerQuestion, 
+      questionIndex: _questionIndex, 
+      questions: _questions
+      ) 
+      : Result(_totalScore, _resetQuiz),
       ),
     );
   }
